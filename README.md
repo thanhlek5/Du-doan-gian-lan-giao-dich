@@ -9,6 +9,6 @@ file train và test với 80% train và 20% test gốc 👇👇👇
 
 https://drive.google.com/drive/folders/1Xu7Cys_Wt-CApTzlz-hNj0lFTr1Xph5g?usp=sharing
 
-file pkl phương pháp 👇👇👇
+file csv 3 phương pháp 👇👇👇
 
 https://drive.google.com/drive/folders/15GjBNUQ27r7ig6ZNxp4AjAx_Imr8QsfY?usp=sharing
