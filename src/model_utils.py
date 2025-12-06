@@ -1,4 +1,5 @@
 import joblib
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
@@ -87,7 +88,6 @@ def train_model(x_train,y_train,model_name):
         model.fit(x_train, y_train)
         print("Train successful!!")
         
-        save_model(model, f"models/models_{model_name}.pkl")
         return model
     except Exception as e:
         print(f" Lỗi khi train {model_name}: {e}")
@@ -140,6 +140,6 @@ def tune_model(x_train,y_train,model_name,config_path = None, score = "f1", cv =
     print(f"Best Score ({score}): {grid_search.best_score_:.4f}")
     
     best_model = grid_search.best_estimator_
-    save_model(best_model, f"models/models_{model_name}_best.pkl")
     
     return best_model, grid_search.best_params_
+
