@@ -1,0 +1,8 @@
+{
+    "n_estimators": 200,
+    "max_features":["sqrt","log2"],
+    "criterion": "gini",
+    "min_samples_split":[5,8,10],
+    "min_samples_leaf": [2,4,8],
+    "max_depth": [15,20,null]
+}

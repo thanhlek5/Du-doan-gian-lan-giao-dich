@@ -1,0 +1,5 @@
+{
+  "C": {"type": "float", "low": 0.001, "high": 100, "log": true},
+  "penalty": ["l1", "l2"],
+  "solver": ["saga"] 
+}
