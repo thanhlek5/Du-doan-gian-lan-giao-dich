@@ -1,0 +1,7 @@
+{
+    "C": {"type": "float", "low": 0.1, "high": 100, "log": true},
+    "kernel": ["rbf", "poly", "sigmoid"],
+    "gamma": {"type": "float", "low": 0.001, "high": 1.0, "log": true},
+    "degree": {"type": "int", "low": 2, "high": 4},
+    "class_weight": [null, "balanced"]
+}

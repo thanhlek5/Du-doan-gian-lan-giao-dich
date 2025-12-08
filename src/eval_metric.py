@@ -1,5 +1,6 @@
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.metrics import average_precision_score, precision_recall_curve, auc
+from sklearn.metrics import average_precision_score, precision_recall_curve, auc, confusion_matrix,classification_report, roc_auc_score, accuracy_score
+import seaborn as sns
 import matplotlib.pyplot as plt 
 
 def f1_benchmark(model,x_train, y_train):
@@ -42,3 +43,41 @@ def AUPRC(model, X_test, y_test, plot=False):
         plt.show()
 
     return score
+
+
+
+def evaluate_model(model, X_test, y_test, model_name="Model",thershold = 0.5):
+    print(f"--- ĐÁNH GIÁ: {model_name.upper()} ---")
+    
+    # 1. Dự đoán
+    y_pred = model.predict(X_test)
+    
+    # Kiểm tra xem model có hỗ trợ predict_proba không
+    if hasattr(model, "predict_proba"):
+        y_prob = model.predict_proba(X_test)[:, 1]
+    else:
+        y_prob = model.decision_function(X_test) # Dành cho SVM, v.v.
+
+
+    y_pred_new = (y_prob >= thershold).astype(int)
+    
+    
+    # 2. Các chỉ số cơ bản
+    print(classification_report(y_test, y_pred_new))
+    
+    # 3. Các chỉ số quan trọng cho Imbalanced Data
+    roc = roc_auc_score(y_test, y_prob)
+    pr_auc = average_precision_score(y_test, y_prob) # Đây chính là AUPRC
+    
+    print(f"ROC-AUC: {roc:.4f}")
+    print(f"PR-AUC (AUPRC): {pr_auc:.4f} (Quan trọng cho Fraud)")
+    
+    # 4. Vẽ Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred_new)
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False)
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.title(f'Confusion Matrix - {model_name}')
+    plt.show()
+
