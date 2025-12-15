@@ -15,7 +15,7 @@ except ImportError:
     from optuna_integration import OptunaSearchCV
 import os
 import json 
-
+import numpy as np
 
 def parse_optuna_params(json_params):
     """
@@ -225,3 +225,24 @@ def tune_model(x_train, y_train, model_name, name_search="gcv", config_path=None
         print(f"Lỗi trong quá trình tuning: {e}")
         return None, None
 
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
+    
+def save_params_to_json(params, filepath):
+    """
+    Lưu dictionary best_params vào file .json
+    """
+    try:
+        with open(filepath, 'w', encoding='utf-8') as f:
+            # Dùng cls=NpEncoder để tránh lỗi numpy
+            json.dump(params, f, cls=NpEncoder, indent=4)
+        print(f" Đã lưu params vào: {filepath}")
+    except Exception as e:
+        print(f" Lỗi khi lưu JSON: {e}")
